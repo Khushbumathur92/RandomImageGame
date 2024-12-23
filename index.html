@@ -23,7 +23,7 @@
             cursor: pointer;
             box-shadow: 6px 6px 4px black;
             transition: all 0.2s ease;
-            margin-top: 20px;
+            margin: 10px; /* Adjusted for proper spacing */
         }
 
         .button-3d:active {
@@ -105,14 +105,18 @@
     </div>
 
     <button id="randomButton" class="button-3d" onclick="randomImage()">Show Random Images</button>
+    <button id="exitButtonRandom" class="button-3d" onclick="exitGame(false)">Exit</button>
 
     <script>
         // Prompt for the user's name
         let a = prompt("Please enter your name:");
         let nameDisplayed = false;
+        let gamePlayed = false;
 
         // Function to generate random images
         function randomImage() {
+            gamePlayed = true; // Mark that the user has played the game
+
             // Array of image paths
             let images = [
                 "image/pic1.jpg",
@@ -127,9 +131,7 @@
 
             // Display the name only once
             if (!nameDisplayed) {
-                document.getElementById("name").innerHTML = "<i>Welcome <span style='color: #fc0356;'>" + a.toUpperCase() + "</span> Please start to play</i>";
-
-;
+                document.getElementById("name").innerHTML = `<i>Welcome <span style='color: #fc0356;'>${a.toUpperCase()}</span>! Please start to play</i>`;
                 nameDisplayed = true;
             }
 
@@ -147,17 +149,18 @@
             if (randomImage === randomImage1 && randomImage1 === randomImage2) {
                 // Show the win message, gif, and audio
                 document.getElementById("winMessage").innerHTML = `
-                    <br/><h3><i>You Win! All images are the same.</i></h3><br/>
+                    <h3><i>You Win! All images are the same.</i></h3>
                     <img src="image/gi4.gif" alt="Hooray" style="width:300px; height:300px;">
                     <audio autoplay>
                         <source src="audio/hooray.mp3" type="audio/mp3">
                     </audio>
-
-                    <br/><h4>Do you wish to play more?</h4>
+                    <h4>Do you wish to play more?</h4>
                     <button id="playAgainButton" class="button-3d" onclick="playAgain()">Yes</button>
+                    <button id="exitButtonWin" class="button-3d" onclick="exitGame(true)">Exit</button>
                 `;
                 // Hide the random button
                 document.getElementById("randomButton").style.display = "none";
+                document.getElementById("exitButtonRandom").style.display = "none";
             } else {
                 // Clear the win message if images are not the same
                 document.getElementById("winMessage").innerHTML = "";
@@ -170,6 +173,17 @@
             document.getElementById("winMessage").innerHTML = "";
             // Show the random button again
             document.getElementById("randomButton").style.display = "inline-block";
+            document.getElementById("exitButtonRandom").style.display = "inline-block";
+        }
+
+        // Function to exit the game
+        function exitGame(played) {
+            if (played || gamePlayed) {
+                alert("Thank you for playing!");
+            } else {
+                alert("Thank you for visiting!");
+            }
+            window.close();
         }
     </script>
 
