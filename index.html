@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Image</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* 3D button styling */
+        .button-3d {
+            background-color: purple;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 6px 6px 4px black;
+            transition: all 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .button-3d:active {
+            box-shadow: 0 2px #0056b3;
+            transform: translateY(2px);
+        }
+
+        .button-3d:hover {
+            background-color: crimson;
+        }
+
+        /* Responsive container for images and content */
+        #container {
+            border: 2px solid;
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 10px 10px 7px;
+        }
+
+        /* Table styles for images */
+        table {
+            margin: 20px auto;
+            width: 100%;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+        .img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border: 2px solid black;
+            box-shadow: 8px 8px 7px;
+        }
+
+        /* For small screens, adjust layout */
+        @media (max-width: 768px) {
+            #container {
+                width: 90%;
+            }
+
+            .button-3d {
+                width: 80%;
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+
+            img {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .button-3d {
+                width: 100%;
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            img {
+                max-width: 120px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h3 id="name"></h3>
+        <table id="imageTable"></table>
+        <div id="winMessage"></div>
+    </div>
+
+    <button id="randomButton" class="button-3d" onclick="randomImage()">Show Random Images</button>
+
+    <script>
+        // Prompt for the user's name
+        let a = prompt("Please enter your name:");
+        let nameDisplayed = false;
+
+        // Function to generate random images
+        function randomImage() {
+            // Array of image paths
+            let images = [
+                "image/pic1.jpg",
+                "image/pic2.jpg",
+                "image/pic3.jpg"
+            ];
+
+            // Select random images from the array
+            let randomImage = images[Math.floor(Math.random() * images.length)];
+            let randomImage1 = images[Math.floor(Math.random() * images.length)];
+            let randomImage2 = images[Math.floor(Math.random() * images.length)];
+
+            // Display the name only once
+            if (!nameDisplayed) {
+                document.getElementById("name").innerHTML = "<i>Welcome <span style='color: #fc0356;'>" + a.toUpperCase() + "</span> Please start to play</i>";
+
+;
+                nameDisplayed = true;
+            }
+
+            // Generate the table content dynamically
+            let tableContent = `
+                <tr>
+                    <td><img src="${randomImage}" alt="Random Image" class="img"></td>
+                    <td><img src="${randomImage1}" alt="Random Image" class="img"></td>
+                    <td><img src="${randomImage2}" alt="Random Image" class="img"></td>
+                </tr>
+            `;
+            document.getElementById("imageTable").innerHTML = tableContent;
+
+            // Check if all images are the same
+            if (randomImage === randomImage1 && randomImage1 === randomImage2) {
+                // Show the win message, gif, and audio
+                document.getElementById("winMessage").innerHTML = `
+                    <br/><h3><i>You Win! All images are the same.</i></h3><br/>
+                    <img src="image/gi4.gif" alt="Hooray" style="width:300px; height:300px;">
+                    <audio autoplay>
+                        <source src="audio/hooray.mp3" type="audio/mp3">
+                    </audio>
+
+                    <br/><h4>Do you wish to play more?</h4>
+                    <button id="playAgainButton" class="button-3d" onclick="playAgain()">Yes</button>
+                `;
+                // Hide the random button
+                document.getElementById("randomButton").style.display = "none";
+            } else {
+                // Clear the win message if images are not the same
+                document.getElementById("winMessage").innerHTML = "";
+            }
+        }
+
+        // Function to reset the game
+        function playAgain() {
+            // Clear the win message
+            document.getElementById("winMessage").innerHTML = "";
+            // Show the random button again
+            document.getElementById("randomButton").style.display = "inline-block";
+        }
+    </script>
+
+</body>
+</html>
